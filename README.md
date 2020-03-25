@@ -1,8 +1,4 @@
-# About the App
-
-This app is made of the project template for [Svelte](https://svelte.dev) that lives at https://github.com/sveltejs/template.
-
-To create a new project based on that template use [degit](https://github.com/Rich-Harris/degit):
+This toy application is made of the project template for Svelte that lives at https://github.com/sveltejs/template. To create a new project based on that template use degit:
 
 ```bash
 npx degit sveltejs/template svelte-app

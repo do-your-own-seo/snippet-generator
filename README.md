@@ -1,4 +1,5 @@
-## The snippet generator from the blog post on [snippet optimization](https://do-your-own-seo.com/how-to-earn-a-proper-snippet).
+## The SERP snippet generator 
+#### Lives below the blog post on [snippet optimization](https://do-your-own-seo.com/how-to-earn-a-proper-snippet). Supports emojis.
 
 This toy application is made of the project template for Svelte that lives at https://github.com/sveltejs/template. To create a new project based on that template use degit:
 

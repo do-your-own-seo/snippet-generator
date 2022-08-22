@@ -1,9 +1,9 @@
 <script>
     let [title,descr,extra,long]=['','','',''],
         titleSample = 'A neat title up to 600px (about 55-60 characters)',
-        descrSample = 'Two-line description 600px wide. Depending on the location of the search phrase in the given text, about 135-160 characters to be displayed...',
-        extraSample = 'Mobile users may see more: up to 280 chars of description and up to 100 of title.',
-        tooltip = 'Chars above 135 are more likely to be cut out for desktop users',
+        descrSample = 'Two-line description 600px wide. Depending on the location of the search phrase, about 140 - 180 chars to be displayed. If the date is specified, fewer description chars will be shown...',
+        extraSample = 'Mobile users may see even more, up to four lines of the blue title',
+        tooltip = 'Chars above 140 are more likely to be cut out for desktop users',
         regex = /^[A-Z|a-z|0-9|А-Я|Є|І|а-я|є|і|ё]$/,
         now = new Date(), dateNeeded=true,
         smallScreen = window.matchMedia("screen and (max-width: 639px)").matches,
@@ -32,9 +32,10 @@
         }
     $: date = dateNeeded ? now.getDate()+' '+now.toLocaleString('default', { month: 'long' })+' '+now.getFullYear()+' - ' : '';
     $: snippet = date + descr; 
-    $: long = (snippet.length >134)?substrNoBreak(snippet,135,160):''; 
-    $: extra = (snippet.length >159)?substrNoBreak(snippet,160,280,true):'';
+    $: long = (snippet.length >139)?substrNoBreak(snippet,140,180):''; 
+    $: extra = (snippet.length >179)?substrNoBreak(snippet,180,280,true):'';
 </script>
+<h1 id="simulator"><span class="green">Google Snippet</span> &nbsp;Preview</h1>
 <form>
     <div>
         <textarea id="title" bind:value={title} on:input="{e=>{title=decodeEntity(title)}}" placeholder=" Your title here" maxlength="99" cols="24" rows="3"></textarea>
@@ -58,22 +59,22 @@
             </span>
         </div>
         <div class="s">
-            <span class="f">{date}</span><span class="st">{descr?snippet.substring(date.length,135):descrSample}<span class="long" title={tooltip}>{long}</span></span>
-            {#if snippet.length > 160 || !descr} {#if !smallScreen}
+            <span class="f">{date}</span><span class="st">{descr?snippet.substring(date.length,140):descrSample}<span class="long" title={tooltip}>{long}</span></span>
+            {#if snippet.length > 180 || !descr} {#if !smallScreen}
                 <br><i class="separator">________</i><br>{/if}<span class="st mobile">{extra?extra:extraSample}</span>
             {/if}
         </div>
     </div>
 </div>
-<div>
-    <p>You may want to copy-paste to input fields some Unicode characters:</p> 
-    <p class="unicode">➊ ➋ ➌ ➍ ➎ ➥ ➦ ✔ ✖ ⚑ ✆ ☎ ✈ ✉ ✎ § ⨌ ⚖ (͡๏̯͡๏) 〠 ♛ ♜ ♝ ♞ ✮ ✰ ✿ ൡ</p>
-    <p>Or even colorful emoji from <a href="https://emojipedia.org/">emojipedia</a>.</p>
+<div class="emoji">
+    <p>You may want to copy-paste to input fields some Unicode characters</p> 
+    <p class="unicode">➊ ➋ ➌ ➍ ➎ ➥ ➦ ✔ ✖ ⚑ ✆ ☎ ✈ ✉ ✎ § ⚖ (͡๏̯͡๏) 〠 ♛ ♜ ♝ ♞ ✮ ✰ ✿ ൡ</p>
+    <p>or even colorful emoji from <a href="https://emojipedia.org/">emojipedia</a>.</p>
 
     {#if emojiSupport()}
-    <p class="unicode">🍊 &thinsp; 🍾 &thinsp; 🍕 &thinsp; 🍏 &thinsp; 🌶️ &thinsp; 🍫 &thinsp; 🎡 &thinsp; 🧐 &thinsp; 🎠 &thinsp; 🛩️ &thinsp; 📗 &thinsp; ⏰ &thinsp; ⌛ &thinsp; 📙 &thinsp; 📈 &thinsp; 📘 &thinsp;🇨🇦 &thinsp; 🇺🇦 &thinsp; ⚽  &thinsp; 🌎</p>
+    <p class="unicode">🍊 &thinsp; 🍾 &thinsp; 🍕 &thinsp; 🍏 &thinsp; 🌶️ &thinsp; 🍫 &thinsp; 🎡 &thinsp; 🧐 &thinsp; 🎠 &thinsp; 🛩️ &thinsp; 📗 &thinsp; ⏰ &thinsp; ⌛ &thinsp; 📙 &thinsp; 📈 &thinsp;🇨🇦 &thinsp; 🇺🇦 &thinsp; ⚽  &thinsp; 🌎</p>
     {/if}
-    <p>But there is no guarantee that special characters will be displayed in your snippet.</p>
+    <p>But there is no guarantee that special characters will be displayed in your real snippet.</p>
 </div>
 
 <style>
@@ -93,12 +94,13 @@
     line-height: 1.2;
 }
 
+
 .rc {
     position: relative;
     margin-bottom: 42px;
 }
 
-h3 {
+.rc h3 {
     display: inline-block;
     font-size: 20px;
     font-weight: normal;
@@ -107,10 +109,19 @@ h3 {
     padding: 12px 0;
 }
 
+h1 {
+    padding: .5em 0 1em 0;
+    text-align: center;
+}
+
 .r {
     margin: 0;
     font-size: small;
     
+}
+
+.emoji {
+    text-align: center;
 }
 
 .r,.unicode {
@@ -134,6 +145,11 @@ cite, label {
     font-size: 14px;
     line-height: 1.3
 }
+
+cite {
+    opacity: .7;
+}
+
 form {
     display: flex;
     flex-wrap: wrap;
